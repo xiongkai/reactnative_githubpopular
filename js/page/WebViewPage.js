@@ -18,7 +18,7 @@ class WebViewPage extends React.PureComponent{
         this.backPressHelper = new BackPressHelper({...this.props, onBackPressed: this._onBackPressed});
         this.webView = React.createRef();
         const {navigation} = this.props;
-        this.title = navigation&&navigation.getParam("title", null);
+        this.title = navigation&&navigation.getParam("name", null);
         this.url = navigation&&navigation.getParam("url", "https://reactnative.cn/");
         this.state={webViewVisible: false};
     }

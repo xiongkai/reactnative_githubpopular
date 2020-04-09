@@ -19,3 +19,8 @@ export const MyPageMenu = {
     Share: {name: '分享', Icons: Ionicons, icon: 'md-share'},
     CodePush: {name: 'CodePush', Icons: Ionicons, icon: 'ios-planet'},
 };
+
+export const TutorialMenu = {
+    ReactJS: {name: "React.js中文网", url: "https://react.docschina.org/"},
+    ReactNative: {name: "React Native中文网", url: "https://reactnative.cn/"}
+};

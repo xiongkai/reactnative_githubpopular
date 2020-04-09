@@ -17,11 +17,11 @@ export default class NavigationBar extends React.PureComponent{
         );
         let content = this.props.hide?null:(
             <View style={styles.navBar}>
-                {this.getButtonElement(this.props.leftButton)}
+                {this._getButtonElement(this.props.leftButton)}
                 <View style={[styles.navBarTitleContainer, this.props.titleLayoutStyle]}>
                     {titleView}
                 </View>
-                {this.getButtonElement(this.props.rightButton)}
+                {this._getButtonElement(this.props.rightButton)}
             </View>
         );
         return (
@@ -31,7 +31,7 @@ export default class NavigationBar extends React.PureComponent{
         );
     }
 
-    getButtonElement(button){
+    _getButtonElement(button){
         return (
             <View style={styles.navBarButton}>
                 {button}

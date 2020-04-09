@@ -2,11 +2,11 @@ import React, {Fragment} from 'react';
 import {connect} from "react-redux";
 import {
     SafeAreaView, StyleSheet, View, Text, Button,
-    TouchableOpacity, ScrollView, ToastAndroid
+    TouchableOpacity, ScrollView, ToastAndroid, Linking
 } from 'react-native';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import NavigationBar from "../common/NavigationBar";
-import {MyPageMenu} from "../utils/Constants";
+import {MyPageMenu, TutorialMenu} from "../utils/Constants";
 import Actions from "../action";
 import NavigationUtils from "../navigator/NavigationUtils";
 
@@ -19,7 +19,7 @@ class MyPage extends React.PureComponent{
                     <NavigationBar title={"我的"} style={{backgroundColor: this.props.theme}}/>
                     <ScrollView>
                         {this._renderAboutItem(MyPageMenu.About)}
-                        {this._renderItem(MyPageMenu.Tutorial, this._navigateToTutorial)}
+                        {this._renderItem(MyPageMenu.Tutorial)}
                         {this._renderGroup("趋势管理")}
                         {this._renderItem(MyPageMenu.Custom_Language)}
                         {this._renderItem(MyPageMenu.Sort_Language)}
@@ -40,13 +40,14 @@ class MyPage extends React.PureComponent{
     }
 
     _renderAboutItem = (item)=>{
-        return this._renderItem(item, this._navigateToAbout, 90, 50);
+        return this._renderItem(item, 90, 50);
     };
 
-    _renderItem = (items, callback=this._noAction, menuMinHeight=50, iconSize=20)=>{
-        const {name, Icons, icon} = items;
+    _renderItem = (item, menuMinHeight=50, iconSize=20)=>{
+        const {name, Icons, icon} = item;
         return (
-            <TouchableOpacity style={{...styles.menuContainer, minHeight: menuMinHeight}} onPress={callback}>
+            <TouchableOpacity style={{...styles.menuContainer, minHeight: menuMinHeight}}
+                              onPress={()=>this._navigateTo(item)}>
                 <Icons style={styles.menuIcon} size={iconSize} name={icon} color={this.props.theme}/>
                 <Text style={styles.menuText}>{name}</Text>
                 <Ionicons style={styles.menuIcon}  size={20} name={"ios-arrow-forward"} color={this.props.theme}/>
@@ -60,16 +61,32 @@ class MyPage extends React.PureComponent{
         );
     };
 
-    _navigateToAbout = ()=>{
-        NavigationUtils.goToPage("AboutPage", {title: "教程", url: "https://reactnative.cn/"});
-    };
-
-    _navigateToTutorial = ()=>{
-        NavigationUtils.goToPage("WebViewPage", {title: "教程", url: "https://reactnative.cn/"});
-    };
-
-    _noAction = ()=>{
-        ToastAndroid.show("功能还在路上！", ToastAndroid.SHORT);
+    _navigateTo = (item)=>{
+        switch (item){
+            case MyPageMenu.About:
+                NavigationUtils.goToPage("AboutPage", TutorialMenu.ReactNative);
+                break;
+            case MyPageMenu.Tutorial:
+                NavigationUtils.goToPage("WebViewPage", TutorialMenu.ReactNative);
+                break;
+            case MyPageMenu.Feedback:
+                const URL = "mailto:react_native@gmail.com";
+                Linking.canOpenURL(URL)
+                    .then(support=>{
+                        if (!support){
+                            ToastAndroid.show("不支持邮件！", ToastAndroid.SHORT);
+                            return;
+                        }
+                        Linking.openURL(URL);
+                    })
+                    .catch(error=>{
+                        ToastAndroid.show(`打开邮件出错！(${error.message})`, ToastAndroid.SHORT);
+                    });
+                break;
+            default:
+                ToastAndroid.show("功能还在路上！", ToastAndroid.SHORT);
+                break;
+        }
     };
 }
 
