@@ -8,6 +8,7 @@ import HomePage from "../page/HomePage";
 import DetailPage from "../page/DetailPage";
 import WebViewPage from "../page/WebViewPage";
 import AboutPage from "../page/AboutPage";
+import ThemePage from "../page/ThemePage";
 
 const InitNavigator = createStackNavigator({
     WelcomePage: {
@@ -33,6 +34,9 @@ const MainNavigator = createStackNavigator({
     AboutPage: {
         screen: AboutPage,
     },
+    ThemePage: {
+        screen: ThemePage,
+    }
 },{
     initialRouteName: "HomePage",
     defaultNavigationOptions: {

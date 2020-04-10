@@ -24,3 +24,24 @@ export const TutorialMenu = {
     ReactJS: {name: "React.js中文网", url: "https://react.docschina.org/"},
     ReactNative: {name: "React Native中文网", url: "https://reactnative.cn/"}
 };
+
+export const ThemeFlags = {
+    Default: '#2196F3',
+    Red: '#F44336',
+    Pink: '#E91E63',
+    Purple: '#9C27B0',
+    DeepPurple: '#673AB7',
+    Indigo: '#3F51B5',
+    Blue: '#2192FF',
+    LightBlue: '#03A9F4',
+    Cyan: '#00BCD4',
+    Teal: '#009688',
+    Green: '#4CAF50',
+    LightGreen: '#8BC34A',
+    Orange: '#FF9800',
+    DeepOrange: '#FF5722',
+    Brown: '#795548',
+    Grey: '#9E9E9E',
+    BlueGrey: '#607D8B',
+    Black: '#000000'
+};

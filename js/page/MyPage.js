@@ -69,6 +69,9 @@ class MyPage extends React.PureComponent{
             case MyPageMenu.Tutorial:
                 NavigationUtils.goToPage("WebViewPage", TutorialMenu.ReactNative);
                 break;
+            case MyPageMenu.Custom_Theme:
+                NavigationUtils.goToPage("ThemePage");
+                break;
             case MyPageMenu.Feedback:
                 const URL = "mailto:react_native@gmail.com";
                 Linking.canOpenURL(URL)
