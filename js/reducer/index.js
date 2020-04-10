@@ -5,6 +5,7 @@ import ThemeReducer from "./theme";
 import PopularReducer from "./popular";
 import TrendingReducer from "./trending";
 import FavoriteReducer from "./favorite";
+import LanguageReducer from "./language";
 
 const NavReducer = createNavigationReducer(AppNavigator);
 
@@ -14,4 +15,5 @@ export default combineReducers({
     popular: PopularReducer,
     trending: TrendingReducer,
     favorite: FavoriteReducer,
+    language: LanguageReducer,
 });

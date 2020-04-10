@@ -14,7 +14,11 @@ import PopularItem from "../common/PopularItem";
 import NavigationBar from "../common/NavigationBar";
 
 function _genPopularURL(storeName, pageIndex){
-    return `https://api.github.com/search/repositories?q=${storeName}&page=${pageIndex}&per_page=${pageSize}`;
+    let baseUrl = `https://api.github.com/search/repositories?page=${pageIndex}&per_page=${pageSize}`;
+    if (storeName&&storeName.length>0){
+        return `${baseUrl}&q=${storeName}`;
+    }
+    return baseUrl;
 }
 
 class PopularTab extends React.PureComponent{
@@ -169,7 +173,7 @@ const styles = StyleSheet.create({
 });
 
 const TabConfig = {
-    initialRouteName: "TAB0",
+    //initialRouteName: "TAB0",
     tabBarOptions: {
         upperCaseLabel: false,
         scrollEnabled: true,
@@ -195,18 +199,22 @@ class PopularPage extends React.PureComponent{
 
     constructor(props){
         super(props);
-        this.tabNames = ["Android", "IOS", "ReactNative", "Java", "Python", "PHP", "C#", "C/C++"];
+        this.tabNames = this.props.language;
+        this.props.onLoadLanguage();
     }
 
     _tabNavigator = ()=>{
         const tabs = {};
         this.tabNames.forEach((item, index) => {
-            tabs[`TAB${index}`] = {
-                screen: (props)=><PopularTabHOC {...props} tabLabel={item}/>,
-                navigationOptions: {
-                    tabBarLabel: item,
-                }
-            };
+            if (item.checked){
+                let {path, name} = item;
+                tabs[`TAB${index}`] = {
+                    screen: (props)=><PopularTabHOC {...props} tabLabel={path}/>,
+                    navigationOptions: {
+                        tabBarLabel: name,
+                    }
+                };
+            }
         });
         TabConfig.tabBarOptions.style = {
             ...TabConfig.tabBarOptions.style,
@@ -234,6 +242,12 @@ class PopularPage extends React.PureComponent{
     }
 }
 
-const mapStateToProps = (state)=>({theme: state.theme.theme});
+const mapStateToProps = (state)=>({
+    theme: state.theme.theme, language: state.language.language
+});
 
-export default connect(mapStateToProps)(PopularPage);
+const mapDispatchToProps = dispatch=>({
+    onLoadLanguage: ()=>dispatch(Actions.onLoadLanguage()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PopularPage);

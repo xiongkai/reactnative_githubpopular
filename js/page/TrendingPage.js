@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
 });
 
 const TabConfig = {
-    initialRouteName: "TAB0",
+    //initialRouteName: "TAB0",
     tabBarOptions: {
         upperCaseLabel: false,
         scrollEnabled: true,
@@ -146,22 +146,26 @@ class TrendingPage extends React.PureComponent{
 
     constructor(props){
         super(props);
-        this.tabNames = ["JavaScript", "Java", "Python", "PHP", "C#", "C", "C++", "Dart"];
+        this.tabNames = this.props.language;
         this.state = {dateRangeType: "daily"};
+        this.props.onLoadLanguage();
     }
 
     _tabNavigator = ()=>{
         const tabs = {};
         const {dateRangeType} = this.state;
         this.tabNames.forEach((item, index) => {
-            tabs[`TAB${index}`] = {
-                screen: (props)=>(
-                    <TrendingTabHOC {...props} tabLabel={item} dateRangeType={dateRangeType}/>
-                ),
-                navigationOptions: {
-                    tabBarLabel: item,
-                }
-            };
+            if (item.checked) {
+                let {path, name} = item;
+                tabs[`TAB${index}`] = {
+                    screen: (props) => (
+                        <TrendingTabHOC {...props} tabLabel={path} dateRangeType={dateRangeType}/>
+                    ),
+                    navigationOptions: {
+                        tabBarLabel: name,
+                    }
+                };
+            }
         });
         TabConfig.tabBarOptions.style = {
             ...TabConfig.tabBarOptions.style,
@@ -234,6 +238,12 @@ class TrendingPage extends React.PureComponent{
     };
 }
 
-const mapStateToProps = (state)=>({theme: state.theme.theme});
+const mapStateToProps = (state)=>({
+    theme: state.theme.theme, language: state.language.key
+});
 
-export default connect(mapStateToProps)(TrendingPage);
+const mapDispatchToProps = dispatch=>({
+    onLoadLanguage: ()=>dispatch(Actions.onLoadKey()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TrendingPage);

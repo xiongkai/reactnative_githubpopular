@@ -19,4 +19,7 @@ export default {
     FavoriteRefresh: "FavoriteRefresh",
     FavoriteRefreshSuccess: "FavoriteRefreshSuccess",
     FavoriteRefreshFailed: "FavoriteRefreshFailed",
+    
+    LanguageRefresh: "LanguageRefresh",
+    KeyRefresh: "KeyRefresh",
 }
